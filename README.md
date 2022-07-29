@@ -4,7 +4,7 @@ Natural time is a fresh, elegant, and coherent way of measuring the movements of
 
 This **new time standard** is based on common sense and the observation of natural cycles.
 
-This white paper contains the current specifications of natural time in the English language. You may find the first implementation of it written in Javascript here : [github.com/sylvain441/natural-time-js](https://github.com/sylvain441/natural-time-js)
+This repository contains the current specifications of natural time in the English language. You may find the first implementation of it written in Javascript here : [github.com/sylvain441/natural-time-js](https://github.com/sylvain441/natural-time-js)
 
 ![Natural time app](.github/natural-time-app.jpg)
 
@@ -18,7 +18,7 @@ Current version of natural time specifications : `v1.0`
 
 ### 360° clock
 
-The natural time describes the position (azimuth) of the Sun in the sky as observed from a specific position on the Earth's surface (longitude).
+The natural time describes the position of the Sun in the sky as observed from a specific position on the Earth's surface (longitude).
 
 `"What is the time at your place?"` is equivalent to: `"Where is the sun at your longitude?"`.
 
@@ -32,7 +32,7 @@ The natural time describes the position (azimuth) of the Sun in the sky as obser
 
 ### Time distance
 
-There is no such concept as time zones with natural time. Time zones are replaced by time distance.
+There is no such concept as time zones with natural time. Time zones are replaced by time distances.
 
 In natural time, space and time are expressed in the same unit. The _time distance_ is an expression that represent simultaneously:
 - The longitudinal distance between two points (A and B) on Earth's surface
@@ -128,7 +128,7 @@ If the time distance between your position and the antimeridian is known, the fo
 
     Year 1 beginning : 1356091200000 (UNIX Timestamp)
 
-Natural time adopted December 21st, 2012 as the beginning of Year 1. It is an arbitrary date. Any other random solstice would have also been a perfect choice, but this one simply carries an interesting symbolic package. Wrongly advertized as the "end of the world", 2012 is more like the beginning of a new cycle of 144000 days.    
+Natural time adopted December 21st, 2012 as the beginning of Year 1. It is an arbitrary date. Any other random solstice would have also been a perfect choice, but this one simply carries an interesting symbolic package. Wrongly advertized as the "end of the world", 2012 is more like the beginning of a new cycle of 5125 years.    
 
     Year 1 : dec 2012 to dec 2013  
     UTC : 2012-12-21 at 12:00  
