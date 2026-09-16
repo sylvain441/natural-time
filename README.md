@@ -4,17 +4,36 @@ Natural time is a fresh, elegant, and coherent way of measuring the movements of
 
 This **new time standard** is based on common sense and the observation of natural cycles.
 
-This repository contains the current specifications of natural time in the English language. You may find the first implementation of it written in Javascript here : [github.com/sylvain441/natural-time-js](https://github.com/sylvain441/natural-time-js)
-
 ![Natural time app](.github/natural-time-app.jpg)
 
-Play with natural time at [https://naturaltime.app/](https://naturaltime.app/)
+## Welcome
+
+**This repository is the specification.** Plain English, no code, no dependency — the shared reference that anybody can read, argue with, and build upon.
+
+It is released under [CC0](./LICENSE): there is nothing to license, nothing to ask, nothing to pay.
+
+- **You just want to see natural time?** → [naturaltime.app](https://naturaltime.app/)
+- **You want to build something with it?** → read the specifications below, then pick an [implementation](#implementations) or write your own
+- **You want to help?** → [contribute](#contribute)
+
+## Implementations
+
+Natural time already lives in several codebases. All of them are free and open source.
+
+| Project | Language | What it is | Status |
+| ------- | -------- | ---------- | ------ |
+| [natural-time-js](https://github.com/sylvain441/natural-time-js) | TypeScript | **Reference implementation.** Calendar, solar and lunar computations. Published on npm as [`natural-time-js`](https://www.npmjs.com/package/natural-time-js) | Stable |
+| [natural-time-app](https://github.com/sylvain441/natural-time-app) | Vue 3 | The web app behind [naturaltime.app](https://naturaltime.app/) — offline-capable PWA, 26 languages | Live |
+| [natural-time-c](https://github.com/sylvain441/natural-time-c) | C (+ Swift package) | Portable core for embedded and native platforms, numerically checked against the JS reference | Work in progress |
+| [natural-time-py](https://github.com/sylvain441/natural-time-py) | Python | Early port, born out of a Home Assistant experiment. Lightly tested — treat it as a sketch | Experimental |
+
+Built something? Open an issue or [drop a line](#contribute), it will be listed here.
 
 # Specifications
 
-Current version of natural time specifications : `v1.0`
+Current version of natural time specifications : `v1.1`
 
-## TIME 
+## TIME
 
 ### 360° clock
 
@@ -61,7 +80,55 @@ Translating degrees from hours/minutes/seconds is quite straightforward. This ta
 | **5°**          | -                | 20 min             | -                  |
 | **1°**          | -                | 4 min              | -                  |
 | **0,1°**        | -                | -                  | 24s                |
-| **0,01°**       | -                | -                  | 2,4s               | 
+| **0,01°**       | -                | -                  | 2,4s               |
+
+## THE MUSTACHES (optional)
+
+    The mustaches are the signature of a natural clock
+
+They are what makes a natural clock recognizable at a glance, the way two hands make a mechanical clock recognizable. They are **optional**: a natural clock without mustaches is still a perfectly valid natural clock, and no one needs them to read the time. They add a second layer of meaning — *where you are on Earth, and where you are in the year* — on top of the position of the sun.
+
+![The mustaches](.github/mustaches.jpg)
+
+### What they draw
+
+Everywhere on Earth except the equator, the sun does not rise at the same angle all year long. It drifts back and forth between two extremes, and it reaches them on the two solstices:
+
+- Sunrise travels between the **summer solstice sunrise** (its earliest) and the **winter solstice sunrise** (its latest)
+- Sunset travels between the **winter solstice sunset** (its earliest) and the **summer solstice sunset** (its latest)
+
+Drawing those four angles on the dial produces two opened "V" shapes — one on the sunrise side, one on the sunset side. Together they look like a pair of mustaches.
+
+### How to read them
+
+    The wider the mustaches, the further you are from the equator
+
+- At the **equator**, both mustaches collapse into a single straight line: sunrise stays at `~90°` and sunset at `~270°` all year long
+- At **mid latitudes** they open moderately (around `27°` at latitude 46°)
+- Near the **poles** they open wildly, until day or night swallows the whole dial
+
+The straight line joining `90°` and `270°` is the **equinox line**. Twice a year the sun rises and sets exactly on it, and day and night last exactly the same.
+
+Because the mustaches only depend on your latitude, they barely move from one year to the next. They are the fixed landscape of your place; the sun is what moves across it.
+
+### Mustache angle
+
+A single number can summarize how wide a pair of mustaches opens at a given latitude — the average of the four gaps between the solstice angles and the equinox line:
+
+    MustacheAngle = ( (WinterSunrise - SummerSunrise) + (SummerSunset - WinterSunset) ) / 4
+
+(in the southern hemisphere, swap winter and summer)
+
+It goes from `0°` at the equator to `90°` at the polar circles, where it is clamped.
+
+### Conventions for implementers
+
+Nothing here is mandatory. Implementations that do draw the mustaches are invited to keep them recognizable:
+
+- Draw the four solstice angles, not the sunrise/sunset of the current day — the mustaches are the **yearly frame**, not today's weather
+- Keep them visually quieter than the sun's position: dotted, dashed or thin
+- Mark the equinox line (`90°`–`270°`) when it helps
+- Compute them for the observer's latitude, from real ephemerides
 
 ## DATE
 
@@ -128,7 +195,7 @@ If the time distance between your position and the antimeridian is known, the fo
 
     Year 1 beginning : 1356091200000 (UNIX Timestamp)
 
-Natural time adopted December 21st, 2012 as the beginning of Year 1. It is an arbitrary date. Any other random solstice would have also been a perfect choice, but this one simply carries an interesting symbolic package. Wrongly advertized as the "end of the world", 2012 is more like the beginning of a new cycle of 5125 years.    
+Natural time adopted December 21st, 2012 as the beginning of Year 1. It is an arbitrary date. Any other random solstice would have also been a perfect choice, but this one simply carries an interesting symbolic package. Wrongly advertized as the "end of the world", 2012 is more like the beginning of a new cycle of 5125 years.
 
     Year 1 : dec 2012 to dec 2013  
     UTC : 2012-12-21 at 12:00  
@@ -196,7 +263,7 @@ With `base 10` being the most used and adopted convention on Earth right now, ad
 
 A full circle can be graduated in an infinite number of ways. The widely adopted `360°` convention is used for many reasons:
 
-- No learning curve: most of humanity pictures instantly the shape of 180°, 90°, 60° angles
+- No learning curve: most of humanity pictures instantly the shape of 180°, 90°, 60° angles
 - It matches the latitude/longitude system
 - There are a lot of dividers: 180, 120, 90, 72, 60, 45, 40, 36, 30, 24, 20, 18, 15, 12, 10, 9, 8, 6, 5, 4, 3, 2, 1
 
@@ -212,9 +279,14 @@ We could have used another arbitrary place on Earth as the meridian of origin. H
 
 The Earth's rotation is not geometrically perfect, nor is its orbit around the Sun. Consequently, all days have different durations. UTC (Coordinated Universal Time) was designed to deal with this "problem" by calculating the mean time of all those variations. By using UTC, we don't reinvent the wheel. It also makes translations from artificial time much easier.
 
+# Changelog
+
+- **v1.1** — Added the mustaches (optional). Added the implementations list. New illustrations.
+- **v1.0** — First public specification (summer 2022).
+
 # Contribute
 
-Natural time is open to contributions from free-thinking minds. Find your way through Github or email at: [sylvain441@proton.me](mailto:sylvain441@proton.me) to get in touch.
+Natural time is open to contributions from free-thinking minds. Find your way through Github or email at: [sylvain@biquette.xyz](mailto:sylvain@biquette.xyz) to get in touch.
 
 # License
 
